@@ -46,11 +46,11 @@ const shoppingCartId = user.ShoppingCartGuid
 await setAddressInOrder(user.Data.userToken, shoppingCartId, addressList[0])
 
 // Get Restaurants and seach for a restaurant called supersal
-let restaurants = await getRestaurants({
+const restaurants = await getRestaurants({
     addressId: addressList[0].addressId,
     deliveryMethod: 'delivery',
 })
-let supersalRestaurant = restaurants.Data.restaurantsList.filter((r) =>
+const supersalRestaurant = restaurants.Data.restaurantsList.filter((r) =>
     r.localizationNames.en.includes('Shufersal')
 )[0]
 
