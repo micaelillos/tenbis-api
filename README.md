@@ -21,7 +21,8 @@ Install library
 ## Full Example Usage
 
 ```typescript
-import {
+import api from 'tenbis-api'
+const {
     addDishesToCart,
     getPayments,
     getRestaurantMenu,
@@ -31,13 +32,12 @@ import {
     setAddressInOrder,
     setPaymentInOrder,
     submitOrder,
-} from './core'
+} = api
 
 // Login with User Token
 const user = await getUser('********************')
 
 // Get User's id, address, token and current shopping cart id
-
 const { userId: assignedUserId, userToken } = user.Data
 const { Data: addressList } = await getUserAddress(userToken)
 const shoppingCartId = user.ShoppingCartGuid
