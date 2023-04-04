@@ -114,7 +114,12 @@ export async function getRestaurantMenu(restaurantId: string | number) {
     )
     return data
 }
-
+/**
+ *  Returns cart tate after action
+ * @param userToken 
+ * @param shoppingCartGuid 
+ * @param dishList 
+ */
 export async function addDishesToCart(
     userToken: string,
     shoppingCartGuid: string,
@@ -132,6 +137,10 @@ export async function addDishesToCart(
     return data
 }
 
+/**
+ * Returns payment methods 
+ * @param shoppingCartGuid 
+ */
 export async function getPayments(shoppingCartGuid: string) {
     const { data } = await axios.get<PaymentsResponse>(
         `${urlV2}/GetPayments?shoppingCartGuid=${shoppingCartGuid}`
@@ -139,6 +148,12 @@ export async function getPayments(shoppingCartGuid: string) {
     return data
 }
 
+/**
+ * Returns cart state after action 
+ * @param userToken 
+ * @param shoppingCartGuid 
+ * @param address 
+ */
 export async function setAddressInOrder(
     userToken: string,
     shoppingCartGuid: string,
@@ -156,6 +171,12 @@ export async function setAddressInOrder(
     return data
 }
 
+/**
+ * Returns cart state after current action 
+ * @param userToken 
+ * @param shoppingCartGuid 
+ * @param payments 
+ */
 export async function setPaymentInOrder(
     userToken: string,
     shoppingCartGuid: string,
@@ -173,6 +194,10 @@ export async function setPaymentInOrder(
     return data
 }
 
+/**
+ * Returns Order Response 
+ * @param shoppingCartGuid 
+ */
 export async function submitOrder(shoppingCartGuid: string) {
     const { data } = await axios.post(`${urlV2}/SubmitOrder`, {
         ...requestBody,
