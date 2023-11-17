@@ -1,3 +1,5 @@
+import { RawAxiosResponseHeaders } from 'axios'
+
 interface BaseResponse {
     Errors: any[]
     Success: boolean
@@ -21,6 +23,9 @@ interface CodeAuthenticationData {
 
 export interface UserResponse extends BaseResponse {
     Data: UserResponseData
+    authToken: string
+    refreshToken: string
+
 }
 
 export interface UserResponseData {
@@ -311,6 +316,125 @@ interface TaxDiscount {
     validTillTImeStr: any
 }
 
+export interface TransactionReportResponse extends BaseResponse {
+    Data: TransactionReportData
+}
+
+interface TransactionReportData {
+    dateBias: number
+    companyAnnouncement: string
+    companyReportRange: CompanyReportRange
+    moneycards?: MoneycardsEntity[] | null
+    debitTransfers: DebitTransfers
+    reportSetting: ReportSetting
+    orderList?: OrderListEntity[] | null
+    totals: Totals
+    userActiveOrders?: null[] | null
+}
+
+interface CompanyReportRange {
+    startDateStr: string
+    endDateStr: string
+    compnayPayDay: number
+}
+interface MoneycardsEntity {
+    isPrepaid: boolean
+    cardDeleted: boolean
+    moneycardId: number
+    cardSuffix: string
+    limitation: LimitationOrUsageOrBalanceOrUsageBrutoOrUsageNet
+    usage: LimitationOrUsageOrBalanceOrUsageBrutoOrUsageNet
+    balance: LimitationOrUsageOrBalanceOrUsageBrutoOrUsageNet
+    usageBruto: LimitationOrUsageOrBalanceOrUsageBrutoOrUsageNet
+    usageNet: LimitationOrUsageOrBalanceOrUsageBrutoOrUsageNet
+    businessMeetingGuestTotal: number
+    personalGuestTotal: number
+}
+interface LimitationOrUsageOrBalanceOrUsageBrutoOrUsageNet {
+    monthly: number
+    daily: number
+    weekly: number
+    hideDailyLimit: boolean
+    showWeeklyLimit: boolean
+}
+interface DebitTransfers {
+    debitTransfersFromUser?: null[] | null
+    debitTransfersToUser?: null[] | null
+}
+interface ReportSetting {
+    showTransferDebit: boolean
+    showPaymentRemarks: boolean
+    hideMonthlyBalanceInUserReport: boolean
+    hideDailyBalanceInUserReport: boolean
+    hideMoneycardLimitsAndBalance: boolean
+    isIntelReport: boolean
+    showEmployerEmployeePart: boolean
+    isKLAReport: boolean
+    showAutoRefundRemarks: boolean
+    isGroupByDay: boolean
+}
+interface OrderListEntity {
+    orderId: number
+    employeePart: number
+    employerPart: number
+    orderType: string
+    orderDate: string
+    orderDateStr: string
+    orderTimeStr: string
+    total: number
+    restaurantId: number
+    restaurantName: string
+    restaurantReviewsDisabled: boolean
+    reviewTransactionId: string
+    existTransferRequest: boolean
+    inoviceUrls?: null[] | null
+    payments?: PaymentsEntity[] | null
+    review: Review
+    transferDebit?: null
+    products?: null[] | null
+    isDebitTransfer: boolean
+    isBarCodeOrder: boolean
+    orderStatus: number
+    transactionBrutoSum: number
+    transactionNetSum: number
+    guestType: string
+    dailySum: number
+}
+export interface PaymentsEntity {
+    paymentId: number
+    transactionId: number
+    cardSuffix: string
+    paymentMethod: string
+    total: number
+    paymentRemarks: string
+    prepaidBalance: number
+    autoRefundRemarks: string
+}
+interface Review {
+    reviewDate: string
+    reviewDateString: string
+    userId: number
+    shortUserName?: null
+    reviewId: number
+    reviewText: string
+    reviewRank: number
+}
+interface Totals {
+    total: number
+    payments?: PaymentsEntity1[] | null
+    employeePartSum: number
+    employerPartSum: number
+}
+interface PaymentsEntity1 {
+    paymentId: number
+    transactionId: number
+    cardSuffix: string
+    paymentMethod: string
+    total: number
+    paymentRemarks?: null
+    prepaidBalance: number
+    autoRefundRemarks?: null
+}
 export interface PaymentsResponse extends BaseResponse {
     Data: PaymentData[]
 }

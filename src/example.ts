@@ -1,60 +1,27 @@
-import {
-    addDishesToCart,
-    getPayments,
-    getRestaurantMenu,
-    getRestaurants,
-    getUser,
-    getUserAddress,
-    setAddressInOrder,
-    setPaymentInOrder,
-    submitOrder,
-} from './core'
+import { getPayments, getTransactionReport, getUser, loadTenbisCredit } from './core'
 
-// Login with User Token
-const user = await getUser('********************')
+// Example to load user credit with api
+// More functionality is implemented - searching for restaurants, adding to cart, submiting orders
+try {
+ // Login with User Token
+    const user = await getUser('***************')
 
-// Get User's id, address, token and current shopping cart id
+ // Get User's id, address, token and current shopping cart id
+    const { userId: assignedUserId, userToken } = user.Data
+    const { refreshToken, authToken } = user
+    const shoppingCartId = user.ShoppingCartGuid
 
-const { userId: assignedUserId, userToken } = user.Data
-const { Data: addressList } = await getUserAddress(userToken)
-const shoppingCartId = user.ShoppingCartGuid
+    // Get moneycards
+    const moneycards = await getPayments(shoppingCartId)
+    console.log(moneycards)
 
-// Set the deleviry address in the current order
-await setAddressInOrder(user.Data.userToken, shoppingCartId, addressList[0])
+    // load credit of remaining usage diff 50 shekels
+    const transactionReport = await getTransactionReport(userToken)
+    const usage = transactionReport.Data.moneycards[0].usage.daily
+    await loadTenbisCredit(100 - usage, moneycards.Data[0].cardId)
 
-// Get Restaurants and seach for a restaurant called supersal
-let restaurants = await getRestaurants({
-    addressId: addressList[0].addressId,
-    deliveryMethod: 'delivery',
-})
-let supersalRestaurant = restaurants.Data.restaurantsList.filter((r) =>
-    r.localizationNames.en.includes('Shufersal')
-)[0]
+} catch (e) {
+    console.log(e.message)
+}
 
-// Get Menu of supersal and select a dish that costs 50
-const menu = await getRestaurantMenu(supersalRestaurant.restaurantId)
-const dishes = menu.categories.flatMap((category) => category.dishes)
-const { id: dishId, categoryId } = dishes.filter((dish) => dish.price === 50)[0]
 
-// Add one of the dish that costs 50 to the cart
-await addDishesToCart(userToken, shoppingCartId, [
-    {
-        assignedUserId,
-        dishId,
-        categoryId,
-        quantity: 1,
-        shoppingCartDishId: 1,
-        choices: [],
-        dishNotes: null,
-    },
-])
-
-// Get available payment methods
-const payments = await getPayments(shoppingCartId)
-
-// Set the second available payment method as the desired payment method
-await setPaymentInOrder(user.Data.userToken, shoppingCartId, [payments.Data[2]])
-
-// Order the cart
-const submitOrderResponse = await submitOrder(shoppingCartId)
-console.log(submitOrderResponse)

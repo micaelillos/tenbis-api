@@ -4,13 +4,17 @@ import {
     getRestaurantMenu,
     getRestaurants,
     getUser,
+    getAuthToken,
     getUserAddress,
     getUserAuthenticationCode,
     loginUser,
     setAddressInOrder,
     setPaymentInOrder,
     submitOrder,
+    loadTenbisCredit,
+    getTransactionReport,
 } from './core'
+
 export default {
     addDishesToCart,
     getPayments,
@@ -18,9 +22,12 @@ export default {
     getRestaurants,
     getUser,
     getUserAddress,
+    getAuthToken,
     getUserAuthenticationCode,
     loginUser,
     setAddressInOrder,
     setPaymentInOrder,
     submitOrder,
+    loadTenbisCredit,
+    getTransactionReport,
 }
