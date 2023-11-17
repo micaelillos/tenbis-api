@@ -2,3 +2,6 @@ dist
 node_modules
 example
 tenbis-bot
+.idea
+.gitignore
+.DS_Store
