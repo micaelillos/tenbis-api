@@ -1,7 +1,7 @@
 # 10BIS API wrapper
 
 <p align=center>
-    <img src="https://servul-api.azureedge.net/Sites/IL/mini_logos/10bis.jpg" width=250>
+    <img src="https://www.10bis.co.il/Areas/G12/Content/Images/HomePage/GOV/GOV_TenBisLogo.png" width=250>
   <br>
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg">
 <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg">
