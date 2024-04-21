@@ -1,14 +1,14 @@
-import { getPayments, getTransactionReport, getUser, loadTenbisCredit } from './core'
+import { getAuthToken, getPayments, getTransactionReport, getUser, loadTenbisCredit } from './core'
 
 // Example to load user credit with api
 // More functionality is implemented - searching for restaurants, adding to cart, submiting orders
 try {
  // Login with User Token
-    const user = await getUser('***************')
+    const tokens = await getAuthToken('********', '*******')
+    const user = await getUser(tokens.authToken, tokens.refreshToken);
 
  // Get User's id, address, token and current shopping cart id
     const { userId: assignedUserId, userToken } = user.Data
-    const { refreshToken, authToken } = user
     const shoppingCartId = user.ShoppingCartGuid
 
     // Get moneycards

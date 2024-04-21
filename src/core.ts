@@ -95,21 +95,16 @@ export async function getRestaurants(
 
 /**
  * Returns User Info, auth token and refresh token
- * @param userToken - recieved in Login Response
+ * @param authToken jwt that has userToken
+ * @param refreshToken jwt that refreshes the authToken
  */
-export async function getUser(userToken: string) {
+export async function getUser(authToken: string, refreshToken: string) {
+    axios.defaults.headers['Cookie'] = `Authorization=${authToken};RefreshToken=${refreshToken}`
     const { data, headers } = await axios.post<UserResponse>(
         `${urlV2}/GetUser`,
-        requestBody,
-        {
-            headers: {
-                'user-token': userToken,
-            },
-        },
+        requestBody
     )
-    const tokens = extractTokensFromHeaders(headers)
-    axios.defaults.headers['Cookie'] = `Authorization=${tokens.authToken};RefreshToken=${tokens.refreshToken}`
-    return { ...data, refreshToken: tokens.refreshToken, authToken: tokens.authToken }
+    return { ...data, refreshToken, authToken}
 }
 
 /**
